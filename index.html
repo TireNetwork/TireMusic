@@ -17,7 +17,7 @@ width: 200px;
 height: 20px;
 }</style>
 <h1>TireMusic</h1>
-<center><button onclick="playSong('https://archive.org/embed/Modest_Mouse__Float_On')">Play Float On</button>
+<center><button onclick="playSong()">Play Float On</button>
 <button onclick="playnggyu()">Play Never Gonna Give You Up</button>
 
 <script>
@@ -26,7 +26,7 @@ function playnggyu() {
   audio.play();
 }
 function playSong(url) {
-  var audio = new Audio(url);
+ var audio = new Audio('/music/float-on.mp3');
   audio.play();
 }
 </script></center>

@@ -32,9 +32,56 @@ function playSong(url) {
   audio.play();
 }
 </script></center>
-    <script>
+
+    <style>
+        #play {
+            display: block;
+            position: absolute;
+        }
+        #pause {
+            display: none;
+            position: absolute;
+        }
+        #songname {
+            position: absolute
+            color: grey;
+            width: 100%;
+            font-family: arial;
+        }
+        #songscontainer {
+            height: 89%;
+            width: 99%;
+        }
+        .song {
+            width: 230px;
+            height: 100px;
+            border: 3px solid black;
+            padding: 5px;
+            border-radius: 20px;
+        }
+        .bar {
+        width: 1000px;
+        }
+    </style>
+</head>
+
+
+<div id="songinfo">
+    <hr style="width: 1000px;"id="bar"
+    <br>
+    <img width="30px" height="30px" id="play" src="play.png" onclick="play();">
+    <img width="30px" height="30px" id="pause" src="pause.webp" onclick="pause();"><br><h3 id="songname">No song playing</h3>
+   
+    
+</div>
+
+<audio loop id="audio">
+    <source id="audiosource" src="non.mp3">
+</audio>
+
+<script>
     function song(name) {
-        document.getElementById('audiosource').src = name+".mp3";
+        document.getElementById('audiosource').src = name + ".mp3";
         document.getElementById('audio').load();
         document.getElementById('songname').innerText = name;
     };
@@ -54,42 +101,4 @@ function playSong(url) {
         document.getElementById('play').style.display = 'block';
         document.getElementById('pause').style.display = 'none';
     };
-    </script> 
-    <style>
-        #play {
-            display: block;
-            position: absolute;
-        }
-        #pause {
-            display: none;
-            position: absolute;
-        }
-        #songname {
-            position: absolute;
-            margin-left: 40px;
-            margin-top: 5px;
-        }
-        #songscontainer {
-            height: 89%;
-            width: 99%;
-        }
-        .song {
-            width: 230px;
-            height: 100px;
-            border: 3px solid black;
-            padding: 5px;
-            border-radius: 20px;
-        }
-    </style>
-   
-    <div id="songinfo">
-        <hr id="bar">
-        <h3 id="songname">No song playing</h3>
-        <img width="30px" height="30px" id="play" src="play.png" onclick="play();">
-        <img width="30px" height="30px" id="pause" src="pause.webp" onclick="pause();">
-    </div>
-    <audio loop id="audio">
-        <source id="audiosource" src="non.mp3">
-    </audio>
-
-   
+</script>

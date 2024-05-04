@@ -2,39 +2,117 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest"><
-<title>TireMusic</title>
-  <head><h1>TireMusic</h1></head>
-  <style>
-h1 {
-font-family: arial;
-top: 0px
-left: 0px;
-postion: fixed;
-color: grey;
-  font-size: 50px
-}
-body {
-background-color: black;
-  overflow: hidden;
-}
-button {
-color: black;
-background-color: grey;
-border-radius: 25px;
-width: 200px;
-height: 20px;
-}</style>
+<title>TireMusic</title><h1>TireMusic</h1>
 
-<center><button onclick="playSong()">Play Tip toe through the tulips</button>
-<button onclick="playnggyu()">Play Never Gonna Give You Up</button>
+<style>
+    h1 {
+        font-family: arial;
+        position: fixed;
+        top: 0;
+        left: 0;
+        color: grey;
+        font-size: 50px;
+        margin: 0;
+        padding: 10px;
+        z-index: 1000;
+    }
+    #status{
+     color: grey;
+     font-family: arial;
+    }
+    body {
+        background-color: white;
+        overflow: hidden;
+        margin-top: 100px;
+    }
+    button {
+        color: black;
+        background-color: grey;
+        border-radius: 25px;
+        width: 190px;
+        height: 20px;
+        margin: 10px;
+        cursor: pointer;
+    }
+    .audio-container {
+        margin: 50px auto;
+        width: 300px;
+    }
+    .visualizer {
+        background-color: white;
+        height: 20px;
+        margin-top: 20px;
+        position: relative;
+        border: 1px solid grey;
+         border-radius: 20px;
+    }
+    .bar {
+        background-color: grey;
+        height: 19px;
+        width: 0;
+        border-radius: 20px;
+     }
+</style>
+
+<div class="audio-container">
+    <audio id="audio" src="" preload="auto"></audio>
+    <button onclick="playSong()">Play "Tip Toe Through the Tulips"</button>
+    <button onclick="playnggyu()">Play "Never Gonna Give You Up"</button>
+    <div class="visualizer">
+        <div class="bar"></div>
+    </div>
+    <button id="playPauseBtn" onclick="togglePlayPause()">pause</button>
+    <div id="status"></div>
+</div>
 
 <script>
-function playnggyu() {
-  var audio = new Audio('https://archive.org/download/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4');
-  audio.play();
-}
-function playSong(url) {
- var audio = new Audio('https://ia800703.us.archive.org/21/items/TinyTimTiptoeThroughTheTulips/Tiny%20Tim%20Tiptoe%20through%20The%20Tulips.mp3');
-  audio.play();
-}
-</script></center>
+    const audio = document.getElementById("audio");
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    const bar = document.querySelector(".bar");
+    const status = document.getElementById("status");
+
+    let isPlaying = false;
+
+    function playnggyu() {
+        audio.src = 'https://archive.org/download/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4';
+        audio.play();
+        isPlaying = true;
+        playPauseBtn.textContent = "pause";
+        status.textContent = "Playing: Never Gonna Give You Up";
+    }
+
+    function playSong() {
+        audio.src = 'https://ia800703.us.archive.org/21/items/TinyTimTiptoeThroughTheTulips/Tiny%20Tim%20Tiptoe%20through%20The%20Tulips.mp3';
+        audio.play();
+        isPlaying = true;
+        playPauseBtn.textContent = "pause";
+        status.textContent = "Playing: Tip Toe Through the Tulips";
+    }
+
+    function togglePlayPause() {
+        if (isPlaying) {
+            audio.pause();
+            isPlaying = false;
+            playPauseBtn.textContent = "play";
+            status.textContent = "";
+        } else {
+            audio.play();
+            isPlaying = true;
+            playPauseBtn.textContent = "pause";
+            status.textContent = isPlaying ? "Playing: Tip Toe Through the Tulips" : "";
+        }
+    }
+
+    audio.addEventListener("timeupdate", () => {
+        const currentTime = audio.currentTime;
+        const duration = audio.duration;
+        const progress = (currentTime / duration) * 100;
+        bar.style.width = `${progress}%`;
+    });
+
+    audio.addEventListener("ended", () => {
+        isPlaying = false;
+        playPauseBtn.textContent = "play";
+        status.textContent = "";
+    });
+</script>

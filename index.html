@@ -1,0 +1,32 @@
+<style>
+h1 {
+font-family: arial;
+top: 0px
+left: 0px;
+postion: fixed;
+color: grey;
+}
+body {
+background-color: black;
+}
+button {
+color: black;
+background-color: grey;
+border-radius: 25px;
+width: 200px;
+height: 20px;
+}</style>
+<h1>TireMusic</h1>
+<center><button onclick="playSong('https://archive.org/embed/Modest_Mouse__Float_On')">Play Float On</button>
+<button onclick="playnggyu()">Play Never Gonna Give You Up</button>
+
+<script>
+function playnggyu() {
+  var audio = new Audio('https://archive.org/download/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4');
+  audio.play();
+}
+function playSong(url) {
+  var audio = new Audio(url);
+  audio.play();
+}
+</script></center>

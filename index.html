@@ -1,20 +1,13 @@
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest"><
-<title>TireMusic</title>
-  <style>
+<style>
 h1 {
 font-family: arial;
 top: 0px
 left: 0px;
 postion: fixed;
 color: grey;
-  font-size: 50px
 }
 body {
 background-color: black;
-  overflow: hidden;
 }
 button {
 color: black;
@@ -24,7 +17,7 @@ width: 200px;
 height: 20px;
 }</style>
 <h1>TireMusic</h1>
-<center><button onclick="playSong()">Play Tip toe through the tulips</button>
+<center><button onclick="playSong('https://archive.org/embed/Modest_Mouse__Float_On')">Play Float On</button>
 <button onclick="playnggyu()">Play Never Gonna Give You Up</button>
 
 <script>
@@ -32,8 +25,71 @@ function playnggyu() {
   var audio = new Audio('https://archive.org/download/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4');
   audio.play();
 }
+</script>
+<script>
 function playSong(url) {
- var audio = new Audio('https://ia800703.us.archive.org/21/items/TinyTimTiptoeThroughTheTulips/Tiny%20Tim%20Tiptoe%20through%20The%20Tulips.mp3');
+  var audio = new Audio(url);
   audio.play();
 }
 </script></center>
+    <script>
+    function song(name) {
+        document.getElementById('audiosource').src = name+".mp3";
+        document.getElementById('audio').load();
+        document.getElementById('songname').innerText = name;
+    };
+    function custom() {
+        name = prompt('Enter the url of the song');
+        document.getElementById('audiosource').src = name;
+        document.getElementById('audio').load();
+        document.getElementById('songname').innerText = 'Custom Song';
+    };
+    function play() {
+        document.getElementById('audio').play();
+        document.getElementById('play').style.display = 'none';
+        document.getElementById('pause').style.display = 'block';
+    };
+    function pause() {
+        document.getElementById('audio').pause();
+        document.getElementById('play').style.display = 'block';
+        document.getElementById('pause').style.display = 'none';
+    };
+    </script> 
+    <style>
+        #play {
+            display: block;
+            position: absolute;
+        }
+        #pause {
+            display: none;
+            position: absolute;
+        }
+        #songname {
+            position: absolute;
+            margin-left: 40px;
+            margin-top: 5px;
+        }
+        #songscontainer {
+            height: 89%;
+            width: 99%;
+        }
+        .song {
+            width: 230px;
+            height: 100px;
+            border: 3px solid black;
+            padding: 5px;
+            border-radius: 20px;
+        }
+    </style>
+   
+    <div id="songinfo">
+        <hr id="bar">
+        <h3 id="songname">No song playing</h3>
+        <img width="30px" height="30px" id="play" src="play.png" onclick="play();">
+        <img width="30px" height="30px" id="pause" src="pause.webp" onclick="pause();">
+    </div>
+    <audio loop id="audio">
+        <source id="audiosource" src="non.mp3">
+    </audio>
+
+   

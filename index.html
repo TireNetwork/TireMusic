@@ -58,6 +58,7 @@
     <audio id="audio" src="" preload="auto"></audio>
     <button onclick="playSong()">Play Tip Toe Through the Tulips</button>
     <button onclick="playnggyu()">Play Never Gonna Give You Up</button>
+    <button onclick="playmbs()">Play Mr blue sky</button>
     <div class="visualizer">
         <div class="bar"></div>
     </div>
@@ -87,6 +88,13 @@
         isPlaying = true;
         playPauseBtn.textContent = "pause";
         status.textContent = "Playing: Tip Toe Through the Tulips";
+    }
+     function playmbs() {
+        audio.src = 'https://ia801408.us.archive.org/15/items/elo-mr-blue-sky/ELO%20-%20Mr%20Blue%20Sky.mp3';
+        audio.play();
+        isPlaying = true;
+        playPauseBtn.textContent = "pause";
+        status.textContent = "Playing: Mr blue sky";
     }
 
     function togglePlayPause() {

@@ -59,7 +59,6 @@
     <button onclick="playSong()">Play Tip Toe Through the Tulips</button>
     <button onclick="playnggyu()">Play Never Gonna Give You Up</button>
     <button onclick="playmbs()">Play Mr blue sky</button>
-    <button onclick="playtrss()">Play The real slim shady</button>
     <div class="visualizer">
         <div class="bar"></div>
     </div>
@@ -97,12 +96,6 @@
         playPauseBtn.textContent = "pause";
         status.textContent = "Playing: Mr blue sky";
     }
-    function playtrss() {
-        audio.src = 'https://ia601805.us.archive.org/15/items/eminem-the-real-slim-shady-official-video-clean-version_202103/eminem-the-real-slim-shady-official-video-clean-version.mp3';
-        audio.play();
-        isPlaying = true;
-        playPauseBtn.textContent = "pause";
-        status.textContent = "Playing: The real slim shady";
 
     function togglePlayPause() {
         if (isPlaying) {

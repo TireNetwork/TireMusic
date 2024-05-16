@@ -82,7 +82,7 @@
             songs = data.songs;
             songs.forEach((song, index) => {
                 const button = document.createElement("button");
-                button.textContent = `Play ${song.title}`;
+                button.textContent = `Play ${song.title} by ${song.author}`;
                 button.onclick = () => playSong(index);
                 buttonsDiv.appendChild(button);
             });
@@ -95,7 +95,7 @@
         audio.play();
         isPlaying = true;
         playPauseBtn.textContent = "pause";
-        status.textContent = `Playing: ${song.title}`;
+        status.textContent = `Playing: ${song.title} by ${song.author}`;
     }
 
     function togglePlayPause() {
@@ -109,7 +109,7 @@
             isPlaying = true;
             playPauseBtn.textContent = "pause";
             const currentSong = songs.find(song => song.url === audio.src);
-            status.textContent = currentSong ? `Playing: ${currentSong.title}` : "";
+            status.textContent = currentSong ? `Playing: ${currentSong.title} by ${currentSong.author}` : "";
         }
     }
 

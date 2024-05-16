@@ -69,7 +69,12 @@
             left: 0;
         }
     </style>
-    <h1>TireMusic</h1>
+    <h1>TireMusic <div class="visualizer">
+            <div class="bar"></div>
+        </div>
+        <button id="playPauseBtn" onclick="togglePlayPause()">pause</button>
+        <div id="status"></div>
+    </div></h1>
     <div class="audio-container">
         <audio id="audio" src="" preload="auto"></audio>
         <div id="buttons"></div>

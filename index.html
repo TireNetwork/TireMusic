@@ -77,68 +77,65 @@
         <button id="playPauseBtn" onclick="togglePlayPause()">pause</button>
         <div id="status"></div>
     </div>
-    <script>
-        const audio = document.getElementById("audio");
-        const playPauseBtn = document.getElementById("playPauseBtn");
-        const bar = document.querySelector(".bar");
-        const status = document.getElementById("status");
-        const buttonsDiv = document.getElementById("buttons");
 
-        let isPlaying = false;
-        let songs = [];
+<script>
+    const audio = document.getElementById("audio");
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    const bar = document.querySelector(".bar");
+    const status = document.getElementById("status");
+    const buttonsDiv = document.getElementById("buttons");
 
-        // Fetch JSON data and create buttons
-        fetch('https://raw.githubusercontent.com/wheels522/tiremusic/main/songs.json')
-            .then(response => response.json())
-            .then(data => {
-                songs = data.songs;
-                songs.forEach((song, index) => {
-                    const button = document.createElement("button");
-                    button.textContent = `Play ${song.title} by ${song.author}`;
-                    button.onclick = () => playSong(index);
-                    buttonsDiv.appendChild(button);
-                });
-            })
-            .catch(error => console.error('Error fetching JSON:', error));
+    let isPlaying = false;
+    let songs = [];
 
-        // Function to play a song
-        function playSong(index) {
-            const song = songs[index];
-            audio.src = song.url;
-            audio.play();
-            isPlaying = true;
-            playPauseBtn.textContent = "pause";
-            status.textContent = `Playing: ${song.title} by ${song.author}`;
-        }
+    // Fetch JSON data and create buttons
+    fetch('songs.json')
+        .then(response => response.json())
+        .then(data => {
+            songs = data.songs;
+            songs.forEach((song, index) => {
+                const button = document.createElement("button");
+                button.textContent = `Play ${song.title} by ${song.author}`;
+                button.onclick = () => playSong(index);
+                buttonsDiv.appendChild(button);
+            });
+        })
+        .catch(error => console.error('Error fetching JSON:', error));
 
-        // Function to toggle play/pause
-        function togglePlayPause() {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                playPauseBtn.textContent = "play";
-                status.textContent = "";
-            } else {
-                audio.play();
-                isPlaying = true;
-                playPauseBtn.textContent = "pause";
-                const currentSong = songs.find(song => song.url === audio.src);
-                status.textContent = currentSong ? `Playing: ${currentSong.title} by ${currentSong.author}` : "";
-            }
-        }
+    function playSong(index) {
+        const song = songs[index];
+        audio.src = song.url;
+        audio.play();
+        isPlaying = true;
+        playPauseBtn.textContent = "pause";
+        status.textContent = `Playing: ${song.title} by ${song.author}`;
+    }
 
-        // Event listener for timeupdate
-        audio.addEventListener("timeupdate", () => {
-            const currentTime = audio.currentTime;
-            const duration = audio.duration;
-            const progress = (currentTime / duration) * 100;
-            bar.style.width = `${progress}%`;
-        });
-
-        // Event listener for ended
-        audio.addEventListener("ended", () => {
+    function togglePlayPause() {
+        if (isPlaying) {
+            audio.pause();
             isPlaying = false;
             playPauseBtn.textContent = "play";
             status.textContent = "";
-        });
-    </script>
+        } else {
+            audio.play();
+            isPlaying = true;
+            playPauseBtn.textContent = "pause";
+            const currentSong = songs.find(song => song.url === audio.src);
+            status.textContent = currentSong ? `Playing: ${currentSong.title} by ${currentSong.author}` : "";
+        }
+    }
+
+    audio.addEventListener("timeupdate", () => {
+        const currentTime = audio.currentTime;
+        const duration = audio.duration;
+        const progress = (currentTime / duration) * 100;
+        bar.style.width = `${progress}%`;
+    });
+
+    audio.addEventListener("ended", () => {
+        isPlaying = false;
+        playPauseBtn.textContent = "play";
+        status.textContent = "";
+    });
+</script>

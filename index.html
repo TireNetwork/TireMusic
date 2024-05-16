@@ -65,76 +65,64 @@
         <div id="status"></div>
     </div>
 
-    <script>
-        const songs = [
-            {
-                "title": "Tip Toe Through the Tulips",
-                "url": "https://ia800703.us.archive.org/21/items/TinyTimTiptoeThroughTheTulips/Tiny%20Tim%20Tiptoe%20through%20The%20Tulips.mp3"
-            },
-            {
-                "title": "Never Gonna Give You Up",
-                "url": "https://archive.org/download/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4"
-            },
-            {
-                "title": "Mr Blue Sky",
-                "url": "https://ia801408.us.archive.org/15/items/elo-mr-blue-sky/ELO%20-%20Mr%20Blue%20Sky.mp3"
-            },
-            {
-                "title": "The Real Slim Shady",
-                "url": "https://ia601805.us.archive.org/15/items/eminem-the-real-slim-shady-official-video-clean-version_202103/eminem-the-real-slim-shady-official-video-clean-version.mp3"
-            }
-        ];
+<script>
+    const audio = document.getElementById("audio");
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    const bar = document.querySelector(".bar");
+    const status = document.getElementById("status");
+    const buttonsDiv = document.getElementById("buttons");
 
-        const audio = document.getElementById("audio");
-        const playPauseBtn = document.getElementById("playPauseBtn");
-        const bar = document.querySelector(".bar");
-        const status = document.getElementById("status");
-        const buttonsDiv = document.getElementById("buttons");
+    let isPlaying = false;
+    let songs = [];
 
-        let isPlaying = false;
+    // Fetch JSON data and create buttons
+    fetch('songs.json')
+        .then(response => response.json())
+        .then(data => {
+            songs = data.songs;
+            songs.forEach((song, index) => {
+                const button = document.createElement("button");
+                button.textContent = `Play ${song.title}`;
+                button.onclick = () => playSong(index);
+                buttonsDiv.appendChild(button);
+            });
+        })
+        .catch(error => console.error('Error fetching JSON:', error));
 
-        // Create buttons dynamically from JSON
-        songs.forEach((song, index) => {
-            const button = document.createElement("button");
-            button.textContent = `Play ${song.title}`;
-            button.onclick = () => playSong(index);
-            buttonsDiv.appendChild(button);
-        });
+    function playSong(index) {
+        const song = songs[index];
+        audio.src = song.url;
+        audio.play();
+        isPlaying = true;
+        playPauseBtn.textContent = "pause";
+        status.textContent = `Playing: ${song.title}`;
+    }
 
-        function playSong(index) {
-            const song = songs[index];
-            audio.src = song.url;
-            audio.play();
-            isPlaying = true;
-            playPauseBtn.textContent = "pause";
-            status.textContent = `Playing: ${song.title}`;
-        }
-
-        function togglePlayPause() {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                playPauseBtn.textContent = "play";
-                status.textContent = "";
-            } else {
-                audio.play();
-                isPlaying = true;
-                playPauseBtn.textContent = "pause";
-                const currentSong = songs.find(song => song.url === audio.src);
-                status.textContent = currentSong ? `Playing: ${currentSong.title}` : "";
-            }
-        }
-
-        audio.addEventListener("timeupdate", () => {
-            const currentTime = audio.currentTime;
-            const duration = audio.duration;
-            const progress = (currentTime / duration) * 100;
-            bar.style.width = `${progress}%`;
-        });
-
-        audio.addEventListener("ended", () => {
+    function togglePlayPause() {
+        if (isPlaying) {
+            audio.pause();
             isPlaying = false;
             playPauseBtn.textContent = "play";
             status.textContent = "";
-        });
-    </script>
+        } else {
+            audio.play();
+            isPlaying = true;
+            playPauseBtn.textContent = "pause";
+            const currentSong = songs.find(song => song.url === audio.src);
+            status.textContent = currentSong ? `Playing: ${currentSong.title}` : "";
+        }
+    }
+
+    audio.addEventListener("timeupdate", () => {
+        const currentTime = audio.currentTime;
+        const duration = audio.duration;
+        const progress = (currentTime / duration) * 100;
+        bar.style.width = `${progress}%`;
+    });
+
+    audio.addEventListener("ended", () => {
+        isPlaying = false;
+        playPauseBtn.textContent = "play";
+        status.textContent = "";
+    });
+</script>

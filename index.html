@@ -1,134 +1,140 @@
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest"><
-<title>TireMusic</title><h1>TireMusic</h1>
-
-<style>
-    h1 {
-        font-family: arial;
-        position: fixed;
-        top: 0;
-        right: 0;
-        color: grey;
-        font-size: 50px;
-        margin: 0;
-        padding: 10px;
-        z-index: 1000;
-    }
-    #status{
-     color: grey;
-     font-family: arial;
-    }
-    body {
-        background-color: black;
-        overflow: hidden;
-        margin-top: 100px;
-    }
-    button {
-        color: black;
-        background-color: grey;
-        border-radius: 25px;
-        width: 300px;
-        height: 20px;
-        margin: 10px;
-        cursor: pointer;
-    }
-    .audio-container {
-        margin: 50px auto;
-        width: 300px;
-    }
-    .visualizer {
-        background-color: white;
-        height: 20px;
-        margin-top: 20px;
-        position: relative;
-        border: 1px solid grey;
-         border-radius: 20px;
-    }
-    .bar {
-        background-color: grey;
-        height: 19px;
-        width: 0;
-        border-radius: 20px;
-     }
-</style>
-
-<div class="audio-container">
-    <audio id="audio" src="" preload="auto"></audio>
-    <button onclick="playSong()">Play Tip Toe Through the Tulips</button>
-    <button onclick="playnggyu()">Play Never Gonna Give You Up</button>
-    <button onclick="playmbs()">Play Mr blue sky</button>
-    <button onclick="playss()">Play The real slim shady</button>
-    <div class="visualizer">
-        <div class="bar"></div>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <title>TireMusic</title>
+    <style>
+        h1 {
+            font-family: arial;
+            position: fixed;
+            top: 0;
+            right: 0;
+            color: grey;
+            font-size: 50px;
+            margin: 0;
+            padding: 10px;
+            z-index: 1000;
+        }
+        #status {
+            color: grey;
+            font-family: arial;
+        }
+        body {
+            background-color: black;
+            overflow: hidden;
+            margin-top: 100px;
+        }
+        button {
+            color: black;
+            background-color: grey;
+            border-radius: 25px;
+            width: 300px;
+            height: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .audio-container {
+            margin: 50px auto;
+            width: 300px;
+        }
+        .visualizer {
+            background-color: white;
+            height: 20px;
+            margin-top: 20px;
+            position: relative;
+            border: 1px solid grey;
+            border-radius: 20px;
+        }
+        .bar {
+            background-color: grey;
+            height: 19px;
+            width: 0;
+            border-radius: 20px;
+        }
+    </style>
+    <h1>TireMusic</h1>
+    <div class="audio-container">
+        <audio id="audio" src="" preload="auto"></audio>
+        <div id="buttons"></div>
+        <div class="visualizer">
+            <div class="bar"></div>
+        </div>
+        <button id="playPauseBtn" onclick="togglePlayPause()">pause</button>
+        <div id="status"></div>
     </div>
-    <button id="playPauseBtn" onclick="togglePlayPause()">pause</button>
-    <div id="status"></div>
-</div>
 
-<script>
-    const audio = document.getElementById("audio");
-    const playPauseBtn = document.getElementById("playPauseBtn");
-    const bar = document.querySelector(".bar");
-    const status = document.getElementById("status");
+    <script>
+        const songs = [
+            {
+                "title": "Tip Toe Through the Tulips",
+                "url": "https://ia800703.us.archive.org/21/items/TinyTimTiptoeThroughTheTulips/Tiny%20Tim%20Tiptoe%20through%20The%20Tulips.mp3"
+            },
+            {
+                "title": "Never Gonna Give You Up",
+                "url": "https://archive.org/download/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4"
+            },
+            {
+                "title": "Mr Blue Sky",
+                "url": "https://ia801408.us.archive.org/15/items/elo-mr-blue-sky/ELO%20-%20Mr%20Blue%20Sky.mp3"
+            },
+            {
+                "title": "The Real Slim Shady",
+                "url": "https://ia601805.us.archive.org/15/items/eminem-the-real-slim-shady-official-video-clean-version_202103/eminem-the-real-slim-shady-official-video-clean-version.mp3"
+            }
+        ];
 
-    let isPlaying = false;
+        const audio = document.getElementById("audio");
+        const playPauseBtn = document.getElementById("playPauseBtn");
+        const bar = document.querySelector(".bar");
+        const status = document.getElementById("status");
+        const buttonsDiv = document.getElementById("buttons");
 
-    function playnggyu() {
-        audio.src = 'https://archive.org/download/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4';
-        audio.play();
-        isPlaying = true;
-        playPauseBtn.textContent = "pause";
-        status.textContent = "Playing: Never Gonna Give You Up";
-    }
+        let isPlaying = false;
 
-    function playSong() {
-        audio.src = 'https://ia800703.us.archive.org/21/items/TinyTimTiptoeThroughTheTulips/Tiny%20Tim%20Tiptoe%20through%20The%20Tulips.mp3';
-        audio.play();
-        isPlaying = true;
-        playPauseBtn.textContent = "pause";
-        status.textContent = "Playing: Tip Toe Through the Tulips";
-    }
-     function playmbs() {
-        audio.src = 'https://ia801408.us.archive.org/15/items/elo-mr-blue-sky/ELO%20-%20Mr%20Blue%20Sky.mp3';
-        audio.play();
-        isPlaying = true;
-        playPauseBtn.textContent = "pause";
-        status.textContent = "Playing: Mr blue sky";
-    }
-function playss() {
-        audio.src = 'https://ia601805.us.archive.org/15/items/eminem-the-real-slim-shady-official-video-clean-version_202103/eminem-the-real-slim-shady-official-video-clean-version.mp3';
-        audio.play();
-        isPlaying = true;
-        playPauseBtn.textContent = "pause";
-        status.textContent = "Playing: The real slim shady";
-    }
+        // Create buttons dynamically from JSON
+        songs.forEach((song, index) => {
+            const button = document.createElement("button");
+            button.textContent = `Play ${song.title}`;
+            button.onclick = () => playSong(index);
+            buttonsDiv.appendChild(button);
+        });
 
-    function togglePlayPause() {
-        if (isPlaying) {
-            audio.pause();
-            isPlaying = false;
-            playPauseBtn.textContent = "play";
-            status.textContent = "";
-        } else {
+        function playSong(index) {
+            const song = songs[index];
+            audio.src = song.url;
             audio.play();
             isPlaying = true;
             playPauseBtn.textContent = "pause";
-            status.textContent = isPlaying ? "Playing: Tip Toe Through the Tulips" : "";
+            status.textContent = `Playing: ${song.title}`;
         }
-    }
 
-    audio.addEventListener("timeupdate", () => {
-        const currentTime = audio.currentTime;
-        const duration = audio.duration;
-        const progress = (currentTime / duration) * 100;
-        bar.style.width = `${progress}%`;
-    });
+        function togglePlayPause() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                playPauseBtn.textContent = "play";
+                status.textContent = "";
+            } else {
+                audio.play();
+                isPlaying = true;
+                playPauseBtn.textContent = "pause";
+                const currentSong = songs.find(song => song.url === audio.src);
+                status.textContent = currentSong ? `Playing: ${currentSong.title}` : "";
+            }
+        }
 
-    audio.addEventListener("ended", () => {
-        isPlaying = false;
-        playPauseBtn.textContent = "play";
-        status.textContent = "";
-    });
-</script>
+        audio.addEventListener("timeupdate", () => {
+            const currentTime = audio.currentTime;
+            const duration = audio.duration;
+            const progress = (currentTime / duration) * 100;
+            bar.style.width = `${progress}%`;
+        });
+
+        audio.addEventListener("ended", () => {
+            isPlaying = false;
+            playPauseBtn.textContent = "play";
+            status.textContent = "";
+        });
+    </script>

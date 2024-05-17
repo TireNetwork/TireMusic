@@ -75,15 +75,16 @@
             left: 0;
         }
     </style>
-<h1>TireMusic <div class="audio-container">
-    <audio id="audio" src="" preload="auto"></audio>
-    <div id="buttons"></div>
+<h1>TireMusic
     <div class="visualizer">
         <div class="bar"></div>
     </div>
     <button id="playPauseBtn" onclick="togglePlayPause()">pause</button>
     <div id="status" class="song-status"></div> <!-- Added class "song-status" -->
 </div></h1>
+ <div class="audio-container">
+    <audio id="audio" src="" preload="auto"></audio>
+    <div id="buttons"></div>
 <script>
     const audio = document.getElementById("audio");
     const playPauseBtn = document.getElementById("playPauseBtn");

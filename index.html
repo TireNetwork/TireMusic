@@ -4,6 +4,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+<input type="text" id="searchBar" placeholder="Search for songs..." oninput="searchSongs()">
     <title>TireMusic</title>
     <style>
         h1 {
@@ -102,7 +103,7 @@
     </h1>
     <div class="audio-container">
         <div id="searchContainer">
-            <input type="text" id="searchBar" placeholder="Search for songs..." oninput="searchSongs()">
+            
         </div>
         <audio id="audio" src="" preload="auto"></audio>
         <div id="buttons"></div>

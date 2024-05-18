@@ -5,45 +5,40 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <title>TireMusic</title>
-    <style>
-        h1 {
-            font-family: Arial, sans-serif;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            color: grey;
-            font-size: 50px;
-            margin: 0;
-            padding: 10px;
-            z-index: 1000;
-        }
-        
-        .song-status {
-            font-family: Arial, sans-serif;
-            color: grey;
-            font-size: 30px;
-        }
+     <style>
+       h1 {
+    font-family: arial;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    color: grey;
+    font-size: 50px;
+    margin: 0;
+    padding: 10px;
+    z-index: 1000;
+}
 
+.song-status {
+    font-family: arial; /* Optional: inherit font family from h1 */
+    color: grey;
+    font-size: 30px; /* Adjusted font size for song status */
+}
         #status {
             color: grey;
-            font-family: Arial, sans-serif;
+            font-family: arial;
         }
-
         body {
             background-color: black;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-
         .audio-container {
             width: 300px;
             text-align: center;
         }
-
         button {
             color: black;
             background-color: grey;
@@ -53,133 +48,99 @@
             margin: 10px;
             cursor: pointer;
         }
-
         .visualizer {
             background-color: white;
             height: 20px;
             margin-top: 20px;
             position: relative;
             border: 1px solid grey;
+        
         }
-
         .bar {
             background-color: grey;
             height: 19px;
             width: 0;
         }
-
         #playPauseBtn {
             margin: 20px auto;
             display: block;
             width: 70px;
+            
         }
-
         #buttons {
-            margin-top: 20px;
-        }
-
-        #searchContainer {
-            width: 300px;
-            margin-bottom: 20px;
-        }
-
-        #searchBar {
-            width: 100%;
-            height: 30px;
-            padding: 5px;
-            border-radius: 15px;
-            border: 1px solid grey;
-            margin-bottom: 20px;
-            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     </style>
-    <h1>TireMusic
-        <div class="visualizer">
-            <div class="bar"></div>
-        </div>
-        <button id="playPauseBtn" onclick="togglePlayPause()">pause</button>
-        <div id="status" class="song-status"></div>
-    </h1>
-    <div class="audio-container">
-        <div id="searchContainer">
-            
-        </div>
-        <audio id="audio" src="" preload="auto"></audio>
-        <div id="buttons"></div>
+<h1>TireMusic
+    <div class="visualizer">
+        <div class="bar"></div>
     </div>
-    <script>
-        const audio = document.getElementById("audio");
-        const playPauseBtn = document.getElementById("playPauseBtn");
-        const bar = document.querySelector(".bar");
-        const status = document.getElementById("status");
-        const buttonsDiv = document.getElementById("buttons");
-        const searchBar = document.getElementById("searchBar");
+    <button id="playPauseBtn" onclick="togglePlayPause()">pause</button>
+    <div id="status" class="song-status"></div> <!-- Added class "song-status" -->
+</div></h1>
+ <div class="audio-container">
+    <audio id="audio" src="" preload="auto"></audio>
+    <div id="buttons"></div>
+<script>
+    const audio = document.getElementById("audio");
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    const bar = document.querySelector(".bar");
+    const status = document.getElementById("status");
+    const buttonsDiv = document.getElementById("buttons");
 
-        let isPlaying = false;
-        let songs = [];
+    let isPlaying = false;
+    let songs = [];
 
-        // Fetch JSON data and create buttons
-        fetch('songs.json')
-            .then(response => response.json())
-            .then(data => {
-                songs = data.songs;
-                displaySongs(songs);
-            })
-            .catch(error => console.error('Error fetching JSON:', error));
-
-        function displaySongs(songsToDisplay) {
-            buttonsDiv.innerHTML = '';
-            songsToDisplay.forEach((song, index) => {
+    // Fetch JSON data and create buttons
+    fetch('songs.json')
+        .then(response => response.json())
+        .then(data => {
+            songs = data.songs;
+            songs.forEach((song, index) => {
                 const button = document.createElement("button");
                 button.textContent = `Play ${song.title} by ${song.author}`;
                 button.onclick = () => playSong(index);
                 buttonsDiv.appendChild(button);
             });
-        }
+        })
+        .catch(error => console.error('Error fetching JSON:', error));
 
-        function playSong(index) {
-            const song = songs[index];
-            audio.src = song.url;
-            audio.play();
-            isPlaying = true;
-            playPauseBtn.textContent = "pause";
-            status.textContent = `Playing: ${song.title} by ${song.author}`;
-        }
+    function playSong(index) {
+        const song = songs[index];
+        audio.src = song.url;
+        audio.play();
+        isPlaying = true;
+        playPauseBtn.textContent = "pause";
+        status.textContent = `Playing: ${song.title} by ${song.author}`;
+    }
 
-        function togglePlayPause() {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                playPauseBtn.textContent = "play";
-                status.textContent = "";
-            } else {
-                audio.play();
-                isPlaying = true;
-                playPauseBtn.textContent = "pause";
-                const currentSong = songs.find(song => song.url === audio.src);
-                status.textContent = currentSong ? `Playing: ${currentSong.title} by ${currentSong.author}` : "";
-            }
-        }
-
-        function searchSongs() {
-            const query = searchBar.value.toLowerCase();
-            const filteredSongs = songs.filter(song => 
-                song.title.toLowerCase().includes(query) || 
-                song.author.toLowerCase().includes(query)
-            );
-            displaySongs(filteredSongs);
-        }
-
-        audio.addEventListener("timeupdate", () => {
-            const currentTime = audio.currentTime;
-            const duration = audio.duration;
-            const progress = (currentTime / duration) * 100;
-            bar.style.width = `${progress}%`;
-        });
-
-        audio.addEventListener("ended", () => {
+    function togglePlayPause() {
+        if (isPlaying) {
+            audio.pause();
             isPlaying = false;
             playPauseBtn.textContent = "play";
             status.textContent = "";
-        });
-    </script>
+        } else {
+            audio.play();
+            isPlaying = true;
+            playPauseBtn.textContent = "pause";
+            const currentSong = songs.find(song => song.url === audio.src);
+            status.textContent = currentSong ? `Playing: ${currentSong.title} by ${currentSong.author}` : "";
+        }
+    }
+
+    audio.addEventListener("timeupdate", () => {
+        const currentTime = audio.currentTime;
+        const duration = audio.duration;
+        const progress = (currentTime / duration) * 100;
+        bar.style.width = `${progress}%`;
+    });
+
+    audio.addEventListener("ended", () => {
+        isPlaying = false;
+        playPauseBtn.textContent = "play";
+        status.textContent = "";
+    });
+</script>

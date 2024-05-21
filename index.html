@@ -81,7 +81,9 @@
 </div></h1>
  <div class="audio-container">
     <audio id="audio" src="" preload="auto"></audio>
-    <div id="buttons"></div>
+    <div id="buttons">
+     <a style="color: grey; font-family: arial; bottom: 0; right: 0; position: fixed;" href="/2/">next page</a>
+    </div>
 <script>
     const audio = document.getElementById("audio");
     const playPauseBtn = document.getElementById("playPauseBtn");
@@ -143,4 +145,3 @@
         status.textContent = "";
     });
 </script>
-     <a style="bottom: 0; right: 0; position: fixed;" href="/2/">next page</a>

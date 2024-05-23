@@ -38,7 +38,7 @@
             {
             "title": "Daylight",
             "author": "David kushner",
-            "url": "https://ia802702.us.archive.org/7/items/ruth-b.-dandelions/Daylight%20.mp3"
+            "url": "https://ia802702.us.archive.org/7/items/ruth-b.-dandelions/Daylight%20.mp3"https://github.com/TireNetwork/TireMusic/edit/main/2/songs2.json
         },
         {
             "title": "Gangnam style",
@@ -54,6 +54,11 @@
             "title": "bee.",
             "author": "Groovydominoes52",
             "url": "/songs/bee.mp3"
+        },
+         {
+            "title": "Somebody that i used to know",
+            "author": "Gotye",
+            "url": "https://dn720306.ca.archive.org/0/items/S8_18/Gotye%20-%20Somebody%20That%20I%20Used%20To%20Know%20%28feat.%20Kimbra%29%20-%20official%20video.mp3"
         }
     ]
 }

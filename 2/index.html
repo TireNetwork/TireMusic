@@ -1,87 +1,94 @@
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<title>TireMusic</title>
+<style>
+    h1 {
+        font-family: arial;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        color: grey;
+        font-size: 50px;
+        margin: 0;
+        padding: 10px;
+        z-index: 1000;
+    }
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <title>TireMusic</title>
-     <style>
-       h1 {
-    font-family: arial;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    color: grey;
-    font-size: 50px;
-    margin: 0;
-    padding: 10px;
-    z-index: 1000;
-}
+    .song-status {
+        font-family: arial;
+        color: grey;
+        font-size: 30px;
+    }
 
-.song-status {
-    font-family: arial; /* Optional: inherit font family from h1 */
-    color: grey;
-    font-size: 30px; /* Adjusted font size for song status */
-}
-        #status {
-            color: grey;
-            font-family: arial;
-        }
-        body {
-            background-color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .audio-container {
-            width: 300px;
-            text-align: center;
-        }
-        button {
-            color: black;
-            background-color: grey;
-            border-radius: 25px;
-            width: 300px;
-            height: 50px;
-            margin: 10px;
-            cursor: pointer;
-        }
-        .visualizer {
-            background-color: white;
-            height: 20px;
-            margin-top: 20px;
-            position: relative;
-            border: 1px solid grey;
-        
-        }
-        .bar {
-            background-color: grey;
-            height: 19px;
-            width: 0;
-        }
-        #playPauseBtn {
-            margin: 20px auto;
-            display: block;
-            width: 70px;
-            
-        }
-        #buttons {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    </style>
+    #status {
+        color: grey;
+        font-family: arial;
+    }
+
+    body {
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .audio-container {
+        width: 300px;
+        text-align: center;
+    }
+
+    button {
+        color: black;
+        background-color: grey;
+        border-radius: 25px;
+        width: 300px;
+        height: 50px;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .visualizer {
+        background-color: white;
+        height: 20px;
+        margin-top: 20px;
+        position: relative;
+        border: 1px solid grey;
+    }
+
+    .bar {
+        background-color: grey;
+        height: 19px;
+        width: 0;
+    }
+
+    #playPauseBtn {
+        margin: 20px auto;
+        display: block;
+        width: 70px;
+    }
+
+    #buttons {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+</style>
 <h1>TireMusic
     <div class="visualizer">
         <div class="bar"></div>
     </div>
     <button id="playPauseBtn" onclick="togglePlayPause()">pause</button>
-    <div id="status" class="song-status"></div> <!-- Added class "song-status" -->
-</div></h1>
- <div class="audio-container">
+    <div id="status" class="song-status"></div>
+</h1>
+<div class="audio-container">
     <audio id="audio" src="" preload="auto"></audio>
     <div id="buttons"></div>
+    <button onclick="addCustomSong()">Add a custom song</button>
+</div>
 <script>
     const audio = document.getElementById("audio");
     const playPauseBtn = document.getElementById("playPauseBtn");
@@ -92,19 +99,40 @@
     let isPlaying = false;
     let songs = [];
 
-    // Fetch JSON data and create buttons
-    fetch('songs2.json')
-        .then(response => response.json())
-        .then(data => {
-            songs = data.songs;
+    // Load songs from localStorage
+    function loadSongs() {
+        const savedSongs = localStorage.getItem('songs');
+        if (savedSongs) {
+            songs = JSON.parse(savedSongs);
             songs.forEach((song, index) => {
-                const button = document.createElement("button");
-                button.textContent = `Play ${song.title} by ${song.author}`;
-                button.onclick = () => playSong(index);
-                buttonsDiv.appendChild(button);
+                createSongButton(song, index);
             });
-        })
-        .catch(error => console.error('Error fetching JSON:', error));
+        } else {
+            fetch('songs2.json')
+                .then(response => response.json())
+                .then(data => {
+                    songs = data.songs;
+                    songs.forEach((song, index) => {
+                        createSongButton(song, index);
+                    });
+                    saveSongs(); // Save initial songs to localStorage
+                })
+                .catch(error => console.error('Error fetching JSON:', error));
+        }
+    }
+
+    // Save songs to localStorage
+    function saveSongs() {
+        localStorage.setItem('songs', JSON.stringify(songs));
+    }
+
+    // Create song button
+    function createSongButton(song, index) {
+        const button = document.createElement("button");
+        button.textContent = `Play ${song.title} by ${song.author}`;
+        button.onclick = () => playSong(index);
+        buttonsDiv.appendChild(button);
+    }
 
     function playSong(index) {
         const song = songs[index];
@@ -130,6 +158,21 @@
         }
     }
 
+    function addCustomSong() {
+        const title = prompt("Enter the song name:");
+        const url = prompt("Enter the song URL:");
+        const author = prompt("Enter the song author:");
+        
+        if (title && url && author) {
+            const newSong = { title, url, author };
+            songs.push(newSong);
+            createSongButton(newSong, songs.length - 1);
+            saveSongs(); // Save updated song list to localStorage
+        } else {
+            alert("All fields are required to add a song.");
+        }
+    }
+
     audio.addEventListener("timeupdate", () => {
         const currentTime = audio.currentTime;
         const duration = audio.duration;
@@ -142,5 +185,7 @@
         playPauseBtn.textContent = "play";
         status.textContent = "";
     });
+
+    loadSongs(); // Load songs when the page loads
 </script>
 <a style="bottom:0; right:0; position:fixed; color:grey; font-family:arial;" href="/3/">next</a>

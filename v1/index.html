@@ -1,0 +1,14 @@
+
+    <pre id="jsonContent"></pre>
+
+    <script>
+        // Fetch the JSON file
+        fetch('index.json')
+            .then(response => response.json())
+            .then(data => {
+                // Display the JSON content in a <pre> element
+                const jsonContent = document.getElementById('jsonContent');
+                jsonContent.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+    </script>

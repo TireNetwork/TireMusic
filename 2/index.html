@@ -51,6 +51,10 @@
         cursor: pointer;
     }
 
+    button.custom-song-button {
+        margin-top: 5px; /* Adjust the value as needed for a slight movement */
+    }
+
     .visualizer {
         background-color: white;
         height: 20px;
@@ -87,7 +91,7 @@
 <div class="audio-container">
     <audio id="audio" src="" preload="auto"></audio>
     <div id="buttons"></div>
-    <button onclick="addCustomSong()">Add a custom song</button>
+    <button class="custom-song-button" onclick="addCustomSong()">Add a custom song</button>
 </div>
 <script>
     const audio = document.getElementById("audio");
